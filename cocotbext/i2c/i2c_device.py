@@ -25,6 +25,7 @@ THE SOFTWARE.
 import logging
 
 import cocotb
+from cocotb.handle import Force, Release
 from cocotb.triggers import RisingEdge, FallingEdge, First
 
 
@@ -62,15 +63,23 @@ class I2cDevice:
         if self.sda_o is not None:
             self.sda_o <= val
         else:
-            self.sda <= val
-            # self.sda <= BinaryValue('z') if val else 0
+            if val:
+                print("Device release sda")
+                self.sda <= Release()
+            else:
+                print("Device force sda")
+                self.sda <= Force(0)
 
     def _set_scl(self, val):
         if self.scl_o is not None:
             self.scl_o <= val
         else:
-            self.scl <= val
-            # self.scl <= BinaryValue('z') if val else 0
+            if val:
+                print("Device release scl")
+                self.scl <= Release()
+            else:
+                print("Device force scl")
+                self.scl <= Force(0)
 
     async def _send_bit(self, b):
         if self.scl.value.integer:

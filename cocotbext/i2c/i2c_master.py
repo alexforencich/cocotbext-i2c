@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 import logging
 
+from cocotb.handle import Force, Release
 from cocotb.triggers import RisingEdge, Timer
 
 from .version import __version__
@@ -63,15 +64,23 @@ class I2cMaster:
         if self.sda_o is not None:
             self.sda_o <= val
         else:
-            self.sda <= val
-            # self.sda <= BinaryValue('z') if val else 0
+            if val:
+                print("Master release sda")
+                self.sda <= Release()
+            else:
+                print("Master force sda")
+                self.sda <= Force(0)
 
     def _set_scl(self, val):
         if self.scl_o is not None:
             self.scl_o <= val
         else:
-            self.scl <= val
-            # self.scl <= BinaryValue('z') if val else 0
+            if val:
+                print("Master release scl")
+                self.scl <= Release()
+            else:
+                print("Master force scl")
+                self.scl <= Force(0)
 
     async def send_start(self):
         if self.bus_active:
