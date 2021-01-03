@@ -44,7 +44,7 @@ class I2cMemory(I2cDevice):
         self.ptr = 0
 
         self.addr_size = ((size-1).bit_length() + 7) // 8
-        self.addr_ptr = 0
+        self.addr_ptr = self.addr_size-1
 
         self.log.info("I2C memory configuration:")
         self.log.info("  Device address: 0x%02x", self.addr)
@@ -59,12 +59,12 @@ class I2cMemory(I2cDevice):
         self.mem.write(data)
 
     def handle_start(self):
-        self.addr_ptr = 0
+        self.addr_ptr = self.addr_size-1
 
     async def handle_write(self, data):
-        if self.addr_ptr < self.addr_size:
+        if self.addr_ptr >= 0:
             self.ptr = (data << self.addr_ptr * 8) | (self.ptr & ~(0xff << self.addr_ptr))
-            self.addr_ptr += 1
+            self.addr_ptr -= 1
             self.log.info("Set ptr 0x%04x", self.ptr)
         else:
             self.mem[self.ptr] = data
