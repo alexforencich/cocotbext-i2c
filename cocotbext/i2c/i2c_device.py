@@ -36,6 +36,7 @@ class I2cDevice:
         self.sda_o = sda_o
         self.scl = scl
         self.scl_o = scl_o
+        self.hs_addr_mask = 0x08
 
         super().__init__(*args, **kwargs)
 
@@ -141,7 +142,7 @@ class I2cDevice:
 
                 while line_active:
                     # read address
-                    addr = await self._recv_byte()
+                    addr = await self._recv_byte()          
 
                     if addr == 'stop':
                         self.log.info("Got stop bit")
@@ -151,7 +152,7 @@ class I2cDevice:
                     elif addr == 'start':
                         self.log.info("Got repeated start bit")
                         self.handle_start()
-                        break
+                        break                  
 
                     if addr >> 1 == self.addr:
                         await self._send_bit(0)
@@ -185,7 +186,13 @@ class I2cDevice:
                                 else:
                                     self._set_scl(0)
                                     await self.handle_write(b)
-                                    self._set_scl(1)
+                                    self._set_scl(1)      
+
                     else:
+                        if isinstance(addr, int):
+                            if ((addr >> 1) & self.hs_addr_mask) == self.hs_addr_mask:
+                                self.log.info("Got high speed special address")
+                                continue
+
                         # no match
                         break

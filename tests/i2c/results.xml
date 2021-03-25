@@ -1,0 +1,7 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1616667651" />
+    <testcase name="run_test_001" classname="test_i2c" file="C:\users\nxf70303\anaconda3\lib\site-packages\cocotb\regression.py" lineno="604" time="0.37798643112182617" sim_time_ns="802501.0" ratio_time="2123094.730195094" />
+    <testcase name="run_test_highspeed_001" classname="test_i2c" file="C:\users\nxf70303\anaconda3\lib\site-packages\cocotb\regression.py" lineno="604" time="1.5358946323394775" sim_time_ns="912501.0" ratio_time="594116.9275460497" />
+  </testsuite>
+</testsuites>

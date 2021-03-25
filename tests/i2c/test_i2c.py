@@ -69,11 +69,34 @@ async def run_test(dut, payload_lengths=None, payload_data=None):
 
     assert test_data == data
 
+async def run_test_highspeed(dut, payload_lengths=None, payload_data=None):
+    
+    tb = TB(dut)
+
+    await Timer(100, 'us')
+
+    test_data = b'\xaa\xbb\xcc\xdd'
+
+    await tb.i2c_master.write(0x08, b'')    # Start hs mode
+    await tb.i2c_master.send_start()        # Start hs mode
+    await tb.i2c_master.write(0x50, b'\x00' + test_data)
+    await tb.i2c_master.send_stop()
+
+    await Timer(100, 'us')
+
+    await tb.i2c_master.write(0x08, b'')    # Start hs mode
+    await tb.i2c_master.send_start()        # Start hs mode
+    await tb.i2c_master.write(0x50, b'\x00')
+    data = await tb.i2c_master.read(0x50, 4)
+    await tb.i2c_master.send_stop()
+
+    assert test_data == data
 
 if cocotb.SIM_NAME:
 
-    factory = TestFactory(run_test)
-    factory.generate_tests()
+    for test in [run_test, run_test_highspeed]:
+        factory = TestFactory(test)
+        factory.generate_tests()
 
 
 # cocotb-test

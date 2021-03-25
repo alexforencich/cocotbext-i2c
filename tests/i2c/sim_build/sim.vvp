@@ -1,0 +1,44 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1110-g18392a46)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 9;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2009.vpi";
+S_0000026eb2e02eb0 .scope package, "$unit" "$unit" 2 1;
+ .timescale -9 -9;
+S_0000026eb2e03040 .scope module, "test_i2c" "test_i2c" 3 32;
+ .timescale -9 -9;
+    .port_info 0 /INPUT 1 "sda_1_i";
+    .port_info 1 /OUTPUT 1 "sda_1_o";
+    .port_info 2 /INPUT 1 "scl_1_i";
+    .port_info 3 /OUTPUT 1 "scl_1_o";
+    .port_info 4 /INPUT 1 "sda_2_i";
+    .port_info 5 /OUTPUT 1 "sda_2_o";
+    .port_info 6 /INPUT 1 "scl_2_i";
+    .port_info 7 /OUTPUT 1 "scl_2_o";
+o0000026eb2e37098 .functor BUFZ 1, C4<z>; HiZ drive
+o0000026eb2e370f8 .functor BUFZ 1, C4<z>; HiZ drive
+L_0000026eb2e03310 .functor AND 1, o0000026eb2e37098, o0000026eb2e370f8, C4<1>, C4<1>;
+o0000026eb2e36fd8 .functor BUFZ 1, C4<z>; HiZ drive
+o0000026eb2e37038 .functor BUFZ 1, C4<z>; HiZ drive
+L_0000026eb2fce3c0 .functor AND 1, o0000026eb2e36fd8, o0000026eb2e37038, C4<1>, C4<1>;
+L_0000026eb2fce690 .functor AND 1, o0000026eb2e37098, o0000026eb2e370f8, C4<1>, C4<1>;
+L_0000026eb2fce910 .functor AND 1, o0000026eb2e36fd8, o0000026eb2e37038, C4<1>, C4<1>;
+v0000026eb2fce870_0 .net "scl_1_i", 0 0, o0000026eb2e36fd8;  0 drivers
+v0000026eb2fce5f0_0 .net "scl_1_o", 0 0, L_0000026eb2fce3c0;  1 drivers
+v0000026eb2fce320_0 .net "scl_2_i", 0 0, o0000026eb2e37038;  0 drivers
+v0000026eb2e031d0_0 .net "scl_2_o", 0 0, L_0000026eb2fce910;  1 drivers
+v0000026eb2e03270_0 .net "sda_1_i", 0 0, o0000026eb2e37098;  0 drivers
+v0000026eb2fcb4d0_0 .net "sda_1_o", 0 0, L_0000026eb2e03310;  1 drivers
+v0000026eb2fcb570_0 .net "sda_2_i", 0 0, o0000026eb2e370f8;  0 drivers
+v0000026eb2fcb610_0 .net "sda_2_o", 0 0, L_0000026eb2fce690;  1 drivers
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "test_i2c.v";
