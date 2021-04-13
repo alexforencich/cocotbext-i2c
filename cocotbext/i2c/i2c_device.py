@@ -36,7 +36,7 @@ class I2cDevice:
         self.sda_o = sda_o
         self.scl = scl
         self.scl_o = scl_o
-        self.hs_addr_mask = 0x08
+        self.hs_addr_mask = 0xF8
 
         super().__init__(*args, **kwargs)
 
@@ -190,9 +190,9 @@ class I2cDevice:
 
                     else:
                         if isinstance(addr, int):
-                            if ((addr >> 1) & self.hs_addr_mask) == self.hs_addr_mask:
+                            if ((addr) & self.hs_addr_mask) == 0x08:
                                 self.log.info("Got high speed special address")
-                                continue
+                                break
 
                         # no match
                         break
