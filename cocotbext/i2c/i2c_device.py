@@ -44,7 +44,7 @@ class I2cDevice:
         if self.scl_o is not None:
             self.scl_o.setimmediatevalue(1)
 
-        cocotb.fork(self._run())
+        cocotb.start_soon(self._run())
 
     def handle_start(self):
         pass
@@ -60,16 +60,16 @@ class I2cDevice:
 
     def _set_sda(self, val):
         if self.sda_o is not None:
-            self.sda_o <= val
+            self.sda_o.value = val
         else:
-            self.sda <= val
+            self.sda.value = val
             # self.sda <= BinaryValue('z') if val else 0
 
     def _set_scl(self, val):
         if self.scl_o is not None:
-            self.scl_o <= val
+            self.scl_o.value = val
         else:
-            self.scl <= val
+            self.scl.value = val
             # self.scl <= BinaryValue('z') if val else 0
 
     async def _send_bit(self, b):
