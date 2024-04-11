@@ -61,16 +61,16 @@ class I2cMaster:
 
     def _set_sda(self, val):
         if self.sda_o is not None:
-            self.sda_o <= val
+            self.sda_o.value = val
         else:
-            self.sda <= val
+            self.sda.value = val
             # self.sda <= BinaryValue('z') if val else 0
 
     def _set_scl(self, val):
         if self.scl_o is not None:
-            self.scl_o <= val
+            self.scl_o.value = val
         else:
-            self.scl <= val
+            self.scl.value = val
             # self.scl <= BinaryValue('z') if val else 0
 
     async def send_start(self):
