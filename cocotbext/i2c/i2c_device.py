@@ -44,7 +44,7 @@ class I2cDevice:
         if self.scl_o is not None:
             self.scl_o.setimmediatevalue(1)
 
-        cocotb.fork(self._run())
+        cocotb.start_soon(self._run())
 
     def handle_start(self):
         pass
