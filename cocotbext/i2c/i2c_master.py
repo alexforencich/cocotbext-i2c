@@ -78,7 +78,7 @@ class I2cMaster:
             self._set_sda(1)
             await self._half_bit_t
             self._set_scl(1)
-            while not self.scl.value:
+            while not int(self.scl.value):
                 await RisingEdge(self.scl)
             await self._half_bit_t
 
@@ -96,7 +96,7 @@ class I2cMaster:
         self._set_sda(0)
         await self._half_bit_t
         self._set_scl(1)
-        while not self.scl.value:
+        while not int(self.scl.value):
             await RisingEdge(self.scl)
         await self._half_bit_t
         self._set_sda(1)
@@ -111,7 +111,7 @@ class I2cMaster:
         self._set_sda(bool(b))
         await self._half_bit_t
         self._set_scl(1)
-        while not self.scl.value:
+        while not int(self.scl.value):
             await RisingEdge(self.scl)
         await self._bit_t
         self._set_scl(0)
@@ -123,9 +123,9 @@ class I2cMaster:
 
         self._set_sda(1)
         await self._half_bit_t
-        b = bool(self.sda.value.integer)
+        b = bool(int(self.sda.value))
         self._set_scl(1)
-        while not self.scl.value:
+        while not int(self.scl.value):
             await RisingEdge(self.scl)
         await self._bit_t
         self._set_scl(0)

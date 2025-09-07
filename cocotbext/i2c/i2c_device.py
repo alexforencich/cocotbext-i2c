@@ -73,7 +73,7 @@ class I2cDevice:
             # self.scl.value = BinaryValue('z') if val else 0
 
     async def _send_bit(self, b):
-        if self.scl.value.integer:
+        if int(self.scl.value):
             await FallingEdge(self.scl)
 
         self._set_sda(bool(b))
@@ -88,19 +88,19 @@ class I2cDevice:
         self._set_scl(1)
         self._set_sda(1)
 
-        if self.scl.value.integer:
+        if int(self.scl.value):
             await First(FallingEdge(self.scl), RisingEdge(self.sda), FallingEdge(self.sda))
 
-            if self.scl.value.integer:
+            if int(self.scl.value):
                 # Got start or stop bit
-                if self.sda.value.integer:
+                if int(self.sda.value):
                     return 'stop'
                 else:
                     return 'start'
 
         await RisingEdge(self.scl)
 
-        return bool(self.sda.value.integer)
+        return bool(int(self.sda.value))
 
     async def _send_byte(self, b):
         for i in range(8):
@@ -133,7 +133,7 @@ class I2cDevice:
 
             await FallingEdge(self.sda)
 
-            if self.scl.value.integer:
+            if int(self.scl.value):
                 # start condition
                 self.log.info("Got start bit")
                 line_active = True
