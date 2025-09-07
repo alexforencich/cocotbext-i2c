@@ -1,6 +1,6 @@
 # I2C interface modules for Cocotb
 
-[![Build Status](https://github.com/alexforencich/cocotbext-i2c/workflows/Regression%20Tests/badge.svg?branch=master)](https://github.com/alexforencich/cocotbext-i2c/actions/)
+[![Regression Tests](https://github.com/alexforencich/cocotbext-i2c/actions/workflows/regression-tests.yml/badge.svg)](https://github.com/alexforencich/cocotbext-i2c/actions/workflows/regression-tests.yml)
 [![codecov](https://codecov.io/gh/alexforencich/cocotbext-i2c/branch/master/graph/badge.svg)](https://codecov.io/gh/alexforencich/cocotbext-i2c)
 [![PyPI version](https://badge.fury.io/py/cocotbext-i2c.svg)](https://pypi.org/project/cocotbext-i2c)
 
