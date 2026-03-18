@@ -49,6 +49,9 @@ class I2cDevice:
     def handle_start(self, rep_start):
         pass
 
+    def match_addr(self, addr):
+        return addr == 0x50
+
     async def handle_write(self, data):
         pass
 
@@ -153,7 +156,7 @@ class I2cDevice:
                         self.handle_start(True)
                         break
 
-                    if addr >> 1 == self.addr:
+                    if self.match_addr(addr >> 1):
                         await self._send_bit(0)
 
                         if addr & 1:

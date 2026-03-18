@@ -61,6 +61,9 @@ class I2cMemory(I2cDevice):
     def handle_start(self, rep_start):
         self.addr_ptr = self.addr_size-1
 
+    def match_addr(self, addr):
+        return addr == self.addr
+
     async def handle_write(self, data):
         if self.addr_ptr >= 0:
             self.ptr = (data << self.addr_ptr * 8) | (self.ptr & ~(0xff << self.addr_ptr))
