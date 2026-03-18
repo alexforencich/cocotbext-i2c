@@ -58,7 +58,7 @@ class I2cMemory(I2cDevice):
         self.mem.seek(address)
         self.mem.write(data)
 
-    def handle_start(self):
+    def handle_start(self, rep_start):
         self.addr_ptr = self.addr_size-1
 
     async def handle_write(self, data):

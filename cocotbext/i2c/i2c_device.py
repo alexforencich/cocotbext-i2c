@@ -46,7 +46,7 @@ class I2cDevice:
 
         cocotb.start_soon(self._run())
 
-    def handle_start(self):
+    def handle_start(self, rep_start):
         pass
 
     async def handle_write(self, data):
@@ -137,7 +137,7 @@ class I2cDevice:
                 # start condition
                 self.log.info("Got start bit")
                 line_active = True
-                self.handle_start()
+                self.handle_start(False)
 
                 while line_active:
                     # read address
@@ -150,7 +150,7 @@ class I2cDevice:
                         break
                     elif addr == 'start':
                         self.log.info("Got repeated start bit")
-                        self.handle_start()
+                        self.handle_start(True)
                         break
 
                     if addr >> 1 == self.addr:
@@ -180,7 +180,7 @@ class I2cDevice:
                                     break
                                 elif b == 'start':
                                     self.log.info("Got repeated start bit")
-                                    self.handle_start()
+                                    self.handle_start(True)
                                     break
                                 else:
                                     self._set_scl(0)
