@@ -48,6 +48,7 @@ class TB:
             scl=dut.scl_2_o, scl_o=dut.scl_2_i, addr=0x50, size=256)
 
 
+@cocotb.test()
 async def run_test(dut, payload_lengths=None, payload_data=None):
 
     tb = TB(dut)
@@ -68,12 +69,6 @@ async def run_test(dut, payload_lengths=None, payload_data=None):
     tb.log.info("Read data: %s", data)
 
     assert test_data == data
-
-
-if getattr(cocotb, 'top', None) is not None:
-
-    factory = TestFactory(run_test)
-    factory.generate_tests()
 
 
 # cocotb-test
