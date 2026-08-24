@@ -25,12 +25,11 @@ THE SOFTWARE.
 
 import logging
 import os
-
-import cocotb_test.simulator
+import sys
 
 import cocotb
 from cocotb.triggers import Timer
-from cocotb.regression import TestFactory
+from cocotb_tools.runner import get_runner
 
 from cocotbext.i2c import I2cMaster, I2cMemory
 
@@ -81,7 +80,7 @@ def test_i2c(request):
     module = os.path.splitext(os.path.basename(__file__))[0]
     toplevel = dut
 
-    verilog_sources = [
+    sources = [
         os.path.join(tests_dir, f"{dut}.v"),
     ]
 
@@ -92,12 +91,28 @@ def test_i2c(request):
     sim_build = os.path.join(tests_dir, "sim_build",
         request.node.name.replace('[', '-').replace(']', ''))
 
-    cocotb_test.simulator.run(
-        python_search=[tests_dir],
-        verilog_sources=verilog_sources,
-        toplevel=toplevel,
-        module=module,
+    timescale = ("1ns", "1ns")
+    sim = os.getenv("SIM", "icarus")
+    waves = bool(int(os.getenv("WAVES", 0)))
+
+    sys.path.append(tests_dir)
+
+    runner = get_runner(sim)
+    runner.build(
+        sources=sources,
+        hdl_toplevel=toplevel,
         parameters=parameters,
-        sim_build=sim_build,
+        always=True,
+        build_dir=sim_build,
+        timescale=timescale,
+        waves=waves,
+    )
+    runner.test(
+        hdl_toplevel=toplevel,
+        test_module=module,
+        parameters=parameters,
         extra_env=extra_env,
+        build_dir=sim_build,
+        timescale=timescale,
+        waves=waves,
     )
