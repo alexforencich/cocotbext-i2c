@@ -123,10 +123,10 @@ class I2cMaster:
 
         self._set_sda(1)
         await self._half_bit_t
-        b = bool(int(self.sda.value))
         self._set_scl(1)
         while not int(self.scl.value):
             await RisingEdge(self.scl)
+        b = bool(int(self.sda.value))
         await self._bit_t
         self._set_scl(0)
         await self._half_bit_t
